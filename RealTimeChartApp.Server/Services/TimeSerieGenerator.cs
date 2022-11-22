@@ -4,7 +4,8 @@ namespace RealTimeChartApp.Server.Services;
 
 public class TimeSerieGenerator
 {
-    readonly List<TimeSpan> times = Enumerable.Range(1, 8).Select(x => new TimeSpan(x, 0, 0)).ToList();
+    private const int noOfDataPoints = 1000;
+    readonly List<TimeSpan> times = Enumerable.Range(1, noOfDataPoints).Select(x => new TimeSpan(x, 0, 0)).ToList();
 
     public List<TimeSerie> GetNewData()
     {

@@ -1,4 +1,6 @@
 export interface ChartModel {
-  data: [],
-  label: string
+  x: Date[],
+  y: number[],
+  type: string,
+  mode: string
 }

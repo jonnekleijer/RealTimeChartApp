@@ -12,7 +12,7 @@ public class TimerManager
     {
         this.action = action;
         autoResetEvent = new AutoResetEvent(false);
-        timer = new Timer(Execute, autoResetEvent, 5000, 5000);
+        timer = new Timer(Execute, autoResetEvent, 1000, 2000);
         TimerStarted = DateTime.Now;
         IsTimerStarted = true;
     }
