@@ -5,25 +5,29 @@ using RealTimeChartApp.Server.Services;
 
 namespace RealTimeChartApp.Server.Controllers;
 
-[Route("[controller]")]
+[Route("api/[controller]")]
 [ApiController]
 public class TimeSerieController : ControllerBase
 {
     private readonly IHubContext<TimeSerieHub> hub;
-    private readonly PeriodicTimer timer;
+    private readonly TimerManager timer;
+    private readonly TimeSerieGenerator generator;
 
-    public TimeSerieController(IHubContext<TimeSerieHub> hub)
+    public TimeSerieController(
+        IHubContext<TimeSerieHub> hub, 
+        TimerManager timer, 
+        TimeSerieGenerator generator)
     {
         this.hub = hub;
-        timer = new PeriodicTimer(TimeSpan.FromSeconds(10));
+        this.timer = timer;
+        this.generator = generator;
     }
+
     [HttpGet]
-    public async Task<IActionResult> Get()
+    public IActionResult ReceiveTimeSerie()
     {
-        while (await timer.WaitForNextTickAsync())
-        {
-            await hub.Clients.All.SendAsync("ReceiveTimeSerieData", TimeSerieGenerator.GetNewData());
-        }
-        return Ok();
+        if (!timer.IsTimerStarted)
+            timer.PrepareTimer(() => hub.Clients.All.SendAsync("ReceiveTimeSerie", generator.GetNewData()));
+        return Ok(new { Message = "Request Completed" });
     }
 }

@@ -1,4 +1,5 @@
 using RealTimeChartApp.Server.Hubs;
+using RealTimeChartApp.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,9 @@ builder.Services.AddSignalR();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddSingleton<TimerManager>();
+builder.Services.AddSingleton<TimeSerieGenerator>();
 
 var app = builder.Build();
 

@@ -4,15 +4,27 @@ namespace RealTimeChartApp.Server.Services;
 
 public class TimeSerieGenerator
 {
-    public static List<TimeSerie> GetNewData()
+    readonly List<TimeSpan> times = Enumerable.Range(1, 8).Select(x => new TimeSpan(x, 0, 0)).ToList();
+
+    public List<TimeSerie> GetNewData()
     {
-        var r = new Random();
         return new List<TimeSerie>()
         {
             new TimeSerie{
-                Data = new List<DataPoint> { new DataPoint { DateTime=DateTime.UtcNow, Value = r.NextDouble()} },
-                Name = "TS1"
+                Data = GetTimeSeries(),
+                Name = "TimeSeries"
             }
         };
+    }
+
+    private ICollection<DataPoint> GetTimeSeries()
+    {
+        var now = DateTime.UtcNow.RoundHour();
+        var r = new Random();
+
+        return times
+            .Select(t => new DataPoint { X = now - t, Y = r.NextDouble() })
+            .OrderBy(t => t.X)
+            .ToList();
     }
 }

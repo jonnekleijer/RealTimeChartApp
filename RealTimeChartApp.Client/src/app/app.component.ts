@@ -1,4 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { ChartConfiguration, ChartType } from 'chart.js';
+import { SignalRService } from './services/signalr.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +9,33 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'RealTimeChartApp.Client';
+  chartOptions: ChartConfiguration['options'] = {
+    responsive: true,
+    scales: {
+      y: {
+        min: 0
+      },
+      // x: {
+      //   type: 'time'
+      // }
+    }
+  };
+  chartLabels: string[] = ['Real time data for the chart'];
+  chartType: ChartType = 'line';
+  chartLegend: boolean = true;
+
+  constructor(public signalRService: SignalRService, private http: HttpClient) { }
+
+  ngOnInit() {
+    this.signalRService.startConnection();
+    this.signalRService.addReceiveTimeSerieListener();
+    this.startHttpRequest();
+  }
+
+  private startHttpRequest = () => {
+    this.http.get('https://localhost:5000/api/timeserie')
+    .subscribe(res => {
+      console.log(res);
+    })
+  }
 }

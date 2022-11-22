@@ -2,6 +2,6 @@
 
 public class DataPoint
 {
-    public DateTime DateTime { get; set; }
-    public double Value { get; set; }
+    public DateTime X { get; set; }
+    public double Y { get; set; }
 }

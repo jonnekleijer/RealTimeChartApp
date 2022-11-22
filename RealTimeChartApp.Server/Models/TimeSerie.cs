@@ -2,6 +2,6 @@
 
 public class TimeSerie
 {
-    public List<DataPoint> Data { get; set; }
+    public ICollection<DataPoint> Data { get; set; }
     public string Name { get; set; }
 }
