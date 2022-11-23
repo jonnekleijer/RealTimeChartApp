@@ -12,7 +12,7 @@ export class SignalRService {
 
   public startConnection = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://localhost:5000/timeserie', {
+      .withUrl('https://localhost:5000/timeserie?tenantId=c80b9d7d-834b-4f29-81c6-56648b00e017&PageId=Page', {
         skipNegotiation: true,
         transport: signalR.HttpTransportType.WebSockets
       })
