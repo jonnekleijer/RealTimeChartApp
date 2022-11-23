@@ -27,7 +27,7 @@ public class TimeSerieController : ControllerBase
     public IActionResult ReceiveTimeSerie()
     {
         if (!timer.IsTimerStarted)
-            timer.PrepareTimer(() => hub.Clients.Group("Page").SendAsync("ReceiveTimeSerie", generator.GetNewData()));
+            timer.PrepareTimer(() => hub.Clients.Group("plot").SendAsync("ReceiveTimeSerie", generator.GetNewData()));
         return Ok(new { Message = "Request Completed" });
     }
 }

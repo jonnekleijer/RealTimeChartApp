@@ -10,9 +10,9 @@ export class SignalRService {
   public data: ChartModel[]
   private hubConnection: signalR.HubConnection
 
-  public startConnection = () => {
+  public startConnection = (pageId: string) => {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://localhost:5000/timeserie?tenantId=c80b9d7d-834b-4f29-81c6-56648b00e017&PageId=Page', {
+      .withUrl(`https://localhost:5000/timeserie?tenantId=c80b9d7d-834b-4f29-81c6-56648b00e017&PageId=${pageId}`, {
         skipNegotiation: true,
         transport: signalR.HttpTransportType.WebSockets
       })
@@ -29,8 +29,8 @@ export class SignalRService {
       this.data = timeseries.map(t => <ChartModel>{
         x: t.data.map(d => d.x),
         y: t.data.map(d => d.y),
-        type: "scatter",
-        mode: "lines+points"
+        type: 'scatter',
+        mode: 'lines+points'
       });
     });
   }
